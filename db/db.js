@@ -10,7 +10,6 @@ module.exports = class DB {
             .then(this.createTableTopUp())
             .then(this.createTableToken())
             .then(this.createTableAsset())
-            .then(conn.close())
             .catch(error => {
                 console.log(`error = ${error}`)
             })
@@ -47,14 +46,14 @@ module.exports = class DB {
     createTableTopUp() {
         return new Promise(resolve => {
             conn.run(`
-        CREATE TABLE "TopUp" (
-            "Id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-            "UserId"	INTEGER NOT NULL,
-            "TokenId"	INTEGER NOT NULL,
-            "TokenAmount"	INTEGER NOT NULL,
-            "TokenPrice"	REAL NOT NULL,
-            "Date"	TEXT NOT NULL DEFAULT (datetime('now','localtime'))
-        );`, (err) => {
+            CREATE TABLE "TopUp" (
+                "Id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+                "UserId"	INTEGER,
+                "TokenId"	INTEGER,
+                "TotalToken"	INTEGER,
+                "TotalPrice"	REAL,
+                "Date"	TEXT DEFAULT (datetime('now','localtime'))
+            );`, (err) => {
                 if (err) {
                     console.log(chalk.green("[Init-DB] - Table TopUp already exist"))
                     return

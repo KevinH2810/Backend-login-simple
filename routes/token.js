@@ -7,4 +7,8 @@ router.get('/', (req, res) => {
     tokenController.getToken(req, res)
 });
 
+router.post('/add', (req, res) => {
+    tokenController.addToken(req, res)
+});
+
 module.exports = router;

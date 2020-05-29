@@ -5,21 +5,34 @@ const HandleError = require('./HandleError');
 module.exports = class TokenController extends BaseController {
     async getToken(req, res) {
         const handleError = new HandleError();
-        const { tokenName } = req.query
 
-        return new Promise(resolve => {
-            conn.get("SELECT * FROM Token WHERE TokenName = ?", [tokenName], (err, result) => {
-                if (err) {
-                    handleError.sendCatchError(res, err);
-                    return;
-                }
+        conn.all("SELECT * FROM Token", (err, results) => {
+            if (err) {
+                handleError.sendCatchError(res, err);
+                return;
+            }
 
-                res.json({
-                    "status": 200,
-                    "data": result,
-                })
+            res.json({
+                "status": 200,
+                "data": results,
+            })
+        })
+    }
 
-                resolve(result)
+    async addToken(req, res) {
+        const handleError = new HandleError();
+
+        const { tokenName, tokenPrice } = req.query;
+
+        conn.run("INSERT INTO Token(TokenName, Price) VALUES(?, ?", [tokenName, tokenPrice], (err) => {
+            if (err) {
+                handleError.sendCatchError(res, err);
+                return;
+            }
+
+            res.json({
+                "status": 200,
+                "message": "new token inserted",
             })
         })
     }
