@@ -42,7 +42,7 @@ the token are available for 24 Hours by supplying username and password.
 ## Add Money
 ---
 Used to add Money to user Balance. 
-you can supply username and money, JWT token arent needed because we're assumed the TopUp are addedd manually
+you can supply username and money, JWT token arent needed because we're assumed the TopUp are added manually
 
 ## Token - /
 ---
